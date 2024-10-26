@@ -1,4 +1,6 @@
 import argparse
+import sys
+sys.path.append('src')
 from main import PolySummaryYT
 
 if __name__ == "__main__":

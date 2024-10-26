@@ -24,8 +24,9 @@ class PolySummaryYT():
     def get_languages(self):
         return list(LANGUAGES_DICT.keys())
 
-    def summarize_video(self, input_url, language, groq_key_input = None, openai_key = None):
-        destination_language = LANGUAGES_DICT[language]
+    def summarize_video(self, input_url, destination_language, groq_key_input = None, openai_key = None):
+        if len(destination_language) > 2:
+            destination_language = LANGUAGES_DICT[destination_language]
         print('selected language:', destination_language)
         print('url:', input_url)
 
