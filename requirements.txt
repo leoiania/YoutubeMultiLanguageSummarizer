@@ -1,4 +1,5 @@
 gradio==5.1.0
+groq==0.11.0
 gtts==2.5.3
 openai==1.51.0
 pytubefix==7.2.2
