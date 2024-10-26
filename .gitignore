@@ -1,0 +1,80 @@
+# Byte-compiled / optimized / compiled Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment folders
+env/
+venv/
+.venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# VS Code settings
+.vscode/
+*.code-workspace
+
+# PyCharm settings
+.idea/
+
+# macOS system files
+.DS_Store
+
+# Docker files
+docker-compose.override.yml
+*.dockerignore
+
+# Log files
+*.log
+*.log.*
+
+# Environment variables and sensitive files
+.env
+*.env
+
+# Dependency folders and other project-specific folders
+__pycache__/
+build/
+dist/
+*.egg-info/
+
+# Test and coverage results
+htmlcov/
+.tox/
+.nox/
+.coverage
+coverage.xml
+*.cover
+*.py,cover
+.cache
+
+# Database or other generated files
+*.sqlite3
+*.db
+
+# Ignore any file from a virtual environment created by Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Ignore output files from profiling or debugging
+*.prof
+
+# Ignore any compiled C extensions
+*.so
+
+# Ignore IPython history
+.ipython/
+
+# Ignore Jupyter Notebook metadata
+.ipynb_checkpoints/
+
+# Ignore SQLite and MySQL database files
+*.sqlite3
+*.db
+.DS_Store
+
+# Repo-specific folders:
+.gradio/
+download_audio/
+translated_audio/
