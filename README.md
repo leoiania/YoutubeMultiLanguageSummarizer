@@ -24,7 +24,7 @@ To install **YoutubeMultiLanguageSummarizer**, follow these steps:
    python3 -m venv venv
    source venv/bin/activate
    ```
-4. **Install the requirements**:
+3. **Install the requirements**:
     ```bash
     pip3 install -r requirements.txt
     ```
@@ -32,7 +32,10 @@ Now you are ready to use it!
 
 ## Usage
 
-You have two options to use this feature: by terminal or by the gradio app. Currently, the terminal only feature is present on this repo - the gradio app will be available soon.
+You have two options to use this feature: by terminal or by the gradio app.
+
+### CLI option
+
 To run this feature in your terminal - assuming you have to summarize and translate [this video](https://www.youtube.com/watch?v=-EtL1eOnkzI). in italian:
 ```bash
 python3 inference_cli.py "https://www.youtube.com/watch?v=-EtL1eOnkzI" "it" --groq_key_input <<YOUR-GROQ-KEY>>
@@ -40,7 +43,14 @@ python3 inference_cli.py "https://www.youtube.com/watch?v=-EtL1eOnkzI" "it" --gr
 If you need help for the needed arguments, run:
 ```bash
 python3 inference_cli.py -h
-``` 
+```
+--
+### Launch gradio app
+Activate the virtual environment as described in point 2, then:
+```bash
+python3 src/app.py
+```
+
 *There is the possibility - not automatically configured - to add the OpenAI API Key and use their voice ("Alloy" by default) for TTS.*
 
 ## Languages Supported
@@ -59,9 +69,9 @@ Our summarizer speaks your language! 🌐 Choose from:
 --
 Here’s what’s coming up:
 
-- [ ] **Gradio Web Apps**: At least two interactive Gradio applications will be added, making it even easier to try out features directly in your browser.
-- [ ] **Expanded Voice Options**: Expect a greater variety of voices, providing more options for tone, accent, and style.
-- [ ] **Full Local Deployment**: Support for running locally on powerful CPU and GPU systems for high-performance processing without the cloud.
+- [x] **Gradio Web Apps**: A unique, user-friendly and complete gradio app - to be deployed on HF Spaces ~~At least two interactive Gradio applications will be added, making it even easier to try out features directly in your browser.~~ 
+- [ ] **Expanded Voice Options**: Expect a greater variety of voices.
+- [x] **Full Local Deployment**: Support for running locally on powerful CPU and GPU systems for high-performance processing without the cloud.
 - [ ] **Docker Support**: A Docker image will be available, making setup and deployment as simple as a single command.
 
 Stay tuned for these enhancements, designed to make YouTube translation and dubbing more accessible and powerful!
