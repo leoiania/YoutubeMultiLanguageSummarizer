@@ -1,7 +1,7 @@
 from videodownloader import PytubeFix_VideoDownloader
 from videotranscriptor import Groq_Transcriptor
 from translator import Groq_Translator
-from ttsgenerator import g_TTSGenerator
+from ttsgenerator import g_TTSGenerator, OpenAI_TTSGenerator
 
 LANGUAGES_DICT = {
         "🇮🇹 Italian": "italian",
@@ -19,7 +19,6 @@ class PolySummaryYT():
         self.videodownloader = PytubeFix_VideoDownloader()
         self.videotranscriptor = Groq_Transcriptor("whisper-large-v3-turbo")
         self.translator = Groq_Translator()
-        self.TTSGenerator = g_TTSGenerator()
 
     def get_languages(self):
         return list(LANGUAGES_DICT.keys())
@@ -46,7 +45,17 @@ class PolySummaryYT():
                                                                     )
         
         # TTS step:
-        translated_audio_path = self.TTSGenerator.generate_audio(translated_text, 
+        if len(openai_key) > 2:
+            print('using openai tts since api key is not none')
+            self.TTSGenerator = OpenAI_TTSGenerator()
+            translated_audio_path = self.TTSGenerator.generate_audio(translated_text,
+                                                                    destination_language,
+                                                                    input_url,
+                                                                    openai_key)
+        else:
+            print('using g tts since api key is none')
+            self.TTSGenerator = g_TTSGenerator()
+            translated_audio_path = self.TTSGenerator.generate_audio(translated_text, 
                                                                 destination_language,
                                                                 input_url)
         

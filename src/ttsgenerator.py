@@ -19,6 +19,21 @@ class TTSGenerator(ABC):
         """
         pass
 
+    def translated_path_check(self, input_url, destination_language, generatorname):
+        timestamp = int(time.time())
+        os.makedirs('translated_audio', exist_ok = True)
+        if input_url is None:
+            timestamp = int(time.time())
+            translated_path = os.path.join('translated_audio', f"{timestamp}.wav")
+        else:
+            if "?v=" in input_url:
+                video_name = input_url.split("?v=")[-1].split("&")[0] + ".mp3"
+            elif "shorts" in input_url:
+                video_name = input_url.split("/")[-1].split(".")[0] + ".mp3"
+            translated_path = os.path.join('translated_audio', f"translated_{generatorname}_{destination_language}_{video_name}.wav")
+        
+        return translated_path
+
 
 class Mock_TTSGenerator(TTSGenerator):
     
@@ -29,12 +44,14 @@ class Mock_TTSGenerator(TTSGenerator):
 
 class OpenAI_TTSGenerator(TTSGenerator):
     
-    def generate_audio(self, text: str, openai_key:str = None) -> str:
+    def generate_audio(self, text: str, destination_language:str = None, input_url:str = None, openai_key:str = None) -> str:
         """
         Generates audio from the provided text using the OpenAI TTS API.
 
         Args:
             text (str): The text input that needs to be converted into audio.
+            destination_language (str): Used to cache the generated audio (for filename)
+            input_url (str): Used to cache the generated audio (for filename)
             openai_key (str, optional): The API key for accessing the OpenAI service. If not provided, it takes the value of the environment variable 'OPENAI_API_KEY'.
 
         Returns:
@@ -43,21 +60,20 @@ class OpenAI_TTSGenerator(TTSGenerator):
         if openai_key is None:
             openai_key = os.environ['OPENAI_API_KEY']
         
-        timestamp = int(time.time())
-        os.makedirs('translated_audio', exist_ok = True)
-        translated_path = os.path.join('translated_audio', f"{timestamp}.wav")
-        
-        client = OpenAI(api_key = openai_key)
-        response = client.audio.speech.create(
-            model = "tts-1",
-            voice = "alloy",
-            input = text
-            )
-        
-        with open(translated_path, "wb") as f:
-            f.write(response.content)
+        translated_path = self.translated_path_check(input_url, destination_language, 'openai')
 
+        if not os.path.isfile(translated_path):
+            client = OpenAI(api_key = openai_key)
+            response = client.audio.speech.create(
+                model = "tts-1",
+                voice = "alloy",
+                input = text
+                )
+            
+            with open(translated_path, "wb") as f:
+                f.write(response.content)
 
+        print('TTS generation completed')
         return translated_path
     
 
@@ -86,21 +102,12 @@ class g_TTSGenerator(TTSGenerator):
         if len(destination_language) > 2:
             destination_language = convert_language[destination_language]
         
-        os.makedirs('translated_audio', exist_ok = True)
-        if input_url is None:
-            timestamp = int(time.time())
-            translated_path = os.path.join('translated_audio', f"{timestamp}.wav")
-        else:
-            if "?v=" in input_url:
-                video_name = input_url.split("?v=")[-1].split("&")[0] + ".mp3"
-            elif "shorts" in input_url:
-                video_name = input_url.split("/")[-1].split(".")[0] + ".mp3"
-            translated_path = os.path.join('translated_audio', f"translated_{destination_language}_{video_name}.wav")
-        
+        translated_path = self.translated_path_check(input_url, destination_language, 'gtts')
+
         if not os.path.isfile(translated_path):
             print('starting gTTS..')
             response = gTTS(text, lang = destination_language)
             response.save(translated_path)
-
+        print('TTS generation completed')
         return translated_path
     
